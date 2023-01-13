@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static%}  
+
+<section>
+<div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">CATEGORY_DATAS</h3>                        
+      </div>
+      <!-- /.box-header -->
+      <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped "  >
+          <thead>
+          <tr bgcolor="#e0bdf2">           
+          <th style="width:5%">Sl.no</th>
+          <th>CATEGORY Name</th>
+          <th>DESCRIPTION</th>
+          <th>Image</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+
+          {% for da in data %}
+          <tr >
+          <td>{{ forloop.counter }}</td>
+          <td>{{ da.cname }}</td>
+          <td>{{ da.catdescpn}}</td>        
+          <td><img src="{{da.image.url}}" style="width:20px; height:20px"></td>
+          <td>
+            <form action="{% url 'editcategory' dataid=da.id %}" method="post" class="col-md-6" style="margin-right:5px;">
+                {% csrf_token %}
+                <button  type="submit" class="btn btn-success btn-xs"  class="btn btn-danger" >Update</button>
+              </form>                 
+            </td>
+            <td>
+                <form action="{% url 'deletecategory' dataid=da.id %}" method="post" class="col-md-6" style="margin-right:5px;">
+                    {% csrf_token %}
+                    <button  type="submit" class="right badge badge-danger"  class="btn btn-danger" >Delete</button>
+                  </form>                 
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+
+</div>
+</div>
+</section>
+{% endblock %}

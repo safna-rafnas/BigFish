@@ -1,0 +1,39 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="all-title-box" style="background-image:url({% static 'images/fresh11.jpg' %});">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Shop</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Shop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start About Page  -->
+    <div class="about-box-main">
+        <div class="container">
+            <div class="row">
+				<div class="col-lg-6">
+                    <div class="banner-frame"> <img class="img-fluid" src="{% static 'images/about-img.jpg' %}" alt="" />
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="noo-sh-title-top">We are <span>Fish Mart</span></h2>
+                    <p>Our mission is to serve you with high quality, delicious and most importantly healthy seafood that will give rise to a healthy generation. Our services allows you to be free from the drudgery of sea food shopping process and makes it an easy relaxed manner of browsing and shopping for healthy high quality seafood. Discover the new modern way to shop for all your sea food needs from the comfort of your home. No more getting stuck in traffic jams, paying for parking, standing in long queues and carrying heavy bags or getting your hands dirty which are the usual hassles of sea food shopping – get all the seafood you need, when you need, right at your doorstep at the click of a button. Sea Food shopping online is now easy as all the fresh sea food you need is available to you at our online store – Healthy Fish. 
+
+                        Healthy Fish online store was launched in the mid of 2014. With our easy to use online store, you can explore fresh sea right now using your PC or smartphone. We offer the best quality marine fish, farm fresh fishes, crabs , shrimps , lobsters and every other sea food you can think of. </p>
+                  
+                </div>
+            </div>
+          
+        </div>
+    </div>
+
+{% endblock %}

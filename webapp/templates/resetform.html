@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>
+            RESET PASSWORD FORM
+        </title>
+    <style>
+        body{
+            background-color:cyan;
+        }
+    </style>
+    </head>
+    <body>
+{% block content %}
+  <h3><u><b>Forgot password</b></u></h3>
+  <form method="post">
+    {% csrf_token %}
+    <label>PASSWORD</label>
+    <input type="text" id="pass" name="pass"><br>
+    <label>CONFIRM PASSWORD</label>
+    <input type="text" id="cpass" name="cpass"><br>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}
+    </body>
+</html>

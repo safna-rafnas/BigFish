@@ -1,0 +1,135 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box" style="background-image:url({% static 'images/fresh11.jpg' %});">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Shop</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'products' cat="all" %}">Shop</a></li>
+                        <li class="breadcrumb-item active">Cart</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table" id ="myTable">
+                            <thead>
+                                <tr>
+                                    <th>Images</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in cartob %}
+                                <tr>
+                                    
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									<img class="img-fluid" src="{{c.productid.image.url}}" alt="" />
+								</a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+                                    {{c.productid.name}}
+                                    <input type="hidden" class="pid" id="pid" value="{{c.id}}">								
+                                        </a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>{{c.productid.price}}</p>
+                                    </td>
+                                    <td class="quantity-box">
+                                        <!-- <p>{{c.quantity}}</p>  -->
+									    <input class="quan" value="{{c.quantity}}" min="0" max="20" type="number" name="quan" id="quan{{c.id}}">
+                                        <input type="hidden" id="price" name="price" value="{{c.productid.price}}"> 
+                                        <input type='hidden' id="userid" name="userid" value="{{request.session.userid}}">
+                                    </td>
+                                    <td class="total-pr">
+                                          <!-- <p>{{c.Total}}</p>   -->
+                                         <input class="w3-input w3-border" name="tot_amount" id="tot_amount" type="text" value ="{{c.Total}}" > 
+                                    </td>
+                                    <td>
+                                        <form action="{% url 'deletecart' dataid=c.id %}" method="post" class="col-md-6" style="margin-right:5px;">
+                                            {% csrf_token %}
+                                            <button  type="submit" class="right badge badge-danger"  class="btn btn-danger" >Delete</button>
+                                          </form>                 
+                                        </td>
+                                </tr>
+                                {% endfor %}
+                        </table>
+                        <div class="row my-5">
+                            <div class="col-lg-8 col-sm-12"></div>
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="order-box">
+                                    <h3>Order summary</h3>
+                                    {% for c in cartob %}
+                                    <div class="d-flex">
+                                        <h4>{{c.productid.name}}</h4>
+                                        <div class="ml-auto font-weight-bold">  {{c.productid.price}} </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="d-flex">
+                                        <h4>Shipping Cost</h4>
+                                        <div class="ml-auto font-weight-bold"> Free </div>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex gr-total">
+                                        <h5>Grand Total</h5>
+                                        <div class="ml-auto h5">{{s}}</div>
+                                    </div>
+                                    <hr> </div>
+                            </div>
+                            <div class="col-12 d-flex shopping-box"><a href="{% url 'checkout' %}" class="ml-auto btn hvr-hover">Checkout</a> </div>
+                        </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+    $(".quan").on('change',function() {
+    // Get the row containing the input
+    var row = $(this).closest('tr');
+    // var p = $('#price').val();
+    var pid = parseInt(row.find(".pid").val());    
+    var qty = parseInt(row.find(this).val());
+    var price = parseInt(row.find('#price').val());
+    // var total =  parseInt(qty)*parseInt(price);
+    location.reload(true);
+    //  $("#tot_amount").val(total);
+            $.ajax({
+                    url: "{% url 'cartupdate' %}",
+                    method: 'post',
+                    cache: false,
+                    data: {
+                        pid: pid,
+                        qty: qty,
+                        price: price,
+                    },
+                 
+                    success: function(response) {
+                        alert(data.message)
+                        console.log(response);
+                    }
+                });
+
+    });
+});  
+    </script>
+</body>
+</html>
+    {% endblock %}

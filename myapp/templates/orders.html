@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static%}  
+
+<div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Order Details</h3>                        
+      </div>
+      <!-- /.box-header -->
+      <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped "  >
+          <thead>
+          <tr bgcolor="#e0bdf2">           
+          <th style="width:5%">Sl.no</th>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Product name</th>
+          <th>Product Price</th>
+        </tr>
+    </thead>
+    <tbody>
+
+          {% for da in data %}
+          <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ da.Firstname }}</td>
+          <td>{{ da.username }}</td>
+          <td>{{ da.email }}</td>
+          <td>{{ da.address}}</td>        
+          <td>{{ da.cartid.productid.name}}</td>  
+          <td>{{ da.cartid.productid.price}}</td>  
+         </tr>
+          {% endfor %}
+           
+    </tbody>
+    </table>
+      
+</div>
+</div>
+
+{% endblock %}

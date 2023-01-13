@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}  
+<div class="container-fluid">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">PRODUCT REGISTRATION</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form role="form" method='POST' action="{% url 'productdatas' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Name</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" name="name">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Available weight in kg</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" name="weight" >
+            </div>
+            <div class="form-group">
+              <label>Categories</label>
+              <select class="form-control" name='categ' id='categ'>
+               {% for d in da %}
+                  <option value="{{d.cname}}">{{d.cname}}</option>
+              {% endfor %}
+                </select>
+              </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Wholeprice</label>
+              <input type="text" class="form-control" id="exampleInputPassword1" name="price">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputFile">File input</label>
+              <div class="input-group">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="exampleInputFile" name="file1">
+                  <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                </div>
+                <div class="input-group-append">
+                  <span class="input-group-text" id="">Upload</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+          
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+<div id ="main ">
+
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box" style="background-image:url({% static 'images/fresh11.jpg' %});">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Product</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Productdetail</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+    <div class="shop-detail-box-main">
+        <div class="container">
+            <div class="row">
+                {% for da in data %}
+                <div class="col-xl-5 col-lg-5 col-md-6">
+                   
+                        <div class="row">  
+                                <div class="shop-cat-box">
+                                    <img class="img-fluid" src="{{da.image.url}}" style ="width:300px; height:300px" alt="" />
+                                </div>    
+                        </div>
+                
+                </div>
+                <div class="col-xl-7 col-lg-7 col-md-6">
+                    <form action = "{% url 'cart1' prodid=da.id %}" method = 'POST'>
+                    {% csrf_token %}
+                        <div class="single-product-details">
+                            <h2>{{da.name}}</h2>
+                            <h5>{{da.price}}</h5>
+                            <ul>
+                                <li>
+                                    <div class="form-group quantity-box">
+                                        <label class="control-label">Quantity</label>
+                                        <input class="form-control" value="0" min="0" max="20" type="number" name="quan" id="quan">
+                                        <input type="hidden" id="price" value="{{da.price}}" >
+                                        <input type='hidden' id="userid" name="userid" value="{{request.session.userid}}">
+                                        <p> <label><b>Total Amount :</b></label>
+                                        <input class="w3-input w3-border" name="tot_amount" id="tot_amount" type="text" ></p> 
+                                    </div>
+                                </li>
+                            </ul> 
+                            
+                            <div class="price-box-bar">
+                                <div>
+                                    <button class="btn btn-success">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+      $("#quan").change(function(){ 
+        var a = $("#price").val();
+        var b = $("#quan").val();
+        var total =  parseInt(a)*parseInt(b);
+        $("#tot_amount").val(total);
+      });
+    });
+    </script>
+    
+</div>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static%}  
+
+<div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">PRODUCT_DATAS</h3>                        
+      </div>
+      <!-- /.box-header -->
+      <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped "  >
+          <thead>
+          <tr bgcolor="#e0bdf2">           
+          <th style="width:5%">Sl.no</th>
+          <th>Name</th>
+          <th>Available_Weight (in kg)</th>
+          <th>Category</th>
+          <th>Whole Price</th>
+          <th>Image</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+
+          {% for da in data %}
+          <tr >
+          <td>{{ forloop.counter }}</td>
+          <td>{{ da.name }}</td>
+          <td>{{ da.weight }}</td>
+          <td>{{ da.categ }}</td>
+          <td>{{ da.price}}</td>        
+          <td><img src="{{da.image.url}}" style="width:20px; height:20px"></td>
+          <td>
+            <form action="{% url 'editproducts' dataid=da.id %}" method="post" class="col-md-6" style="margin-right:5px;">
+              {% csrf_token %}
+                 <button  type="submit" class="btn btn-success btn-xs"  class="btn btn-danger" >Update</button>
+              </form>                 
+            </td>
+            <td>
+                <form action="{% url 'deleteproducts' %}" method="post" class="col-md-6" style="margin-right:5px;">
+                    {% csrf_token %}
+                    <input value="{{ da.id }}" name="data_id" type="hidden">
+                    <button  type="submit" class="right badge badge-danger"  class="btn btn-danger" >Delete</button>
+                  </form>                 
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            {% if data.has_other_pages %}
+  <ul class="pagination pagination-sm m-0 float-right">
+    {% if data.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ data.previous_page_number }}">PREVIOUS</a></li>
+    {% else %}
+      <li class="page-item disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in data.paginator.page_range %}
+      {% if data.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if data.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ data.next_page_number }}">NEXT</a></li>
+    {% else %}
+      <li class="page-item disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</div>
+</div>
+
+{% endblock %}

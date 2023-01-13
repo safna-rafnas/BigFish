@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block content %}  
+<div class="container-fluid">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">CATEGORY REGISTRATION</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form role="form" method='POST' id="uploadData1" action="javascript:void(0)" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Category Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Enter name" name="cname">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Category Description</label>
+                <textarea class="form-control" rows="3" placeholder="Enter ..." name="cdescription"></textarea>
+              </div>
+            <div class="form-group">
+              <label for="exampleInputFile">File input</label>
+              <div class="input-group">
+                  <input type="file" class="custom-file-input" id="file" name="file">
+                  <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+  <script>
+     $("#uploadData1").validate({
+        normalizer: function(value) {
+            return $.trim(value);
+        },
+        rules: {
+
+            cname: {
+                required: true
+            },
+            cdescription: {
+              required: true
+            },
+            file: {
+              required: true
+            },
+        },
+
+        submitHandler: function(form) {
+            var form = document.getElementById('uploadData1');
+            var data = new FormData(form);
+            $.ajax({
+                type: "POST",
+                url: "/categorydatas/",
+                data,
+                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    
+                    if (data.error == 1) {
+                        $("#modal-dialog").html('Server response');
+                        $("#custom_messages").html(data.message);
+                        $('#alertmodal').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        })
+                        setTimeout(function() {
+                            window.location.replace("/viewcategory/");
+                        }, 1000);
+                        // $('#uploadData1').reset();
+                    } else {
+
+                        $("#modal-dialog").html('Server response');
+                        $("#custom_error_messages").html(data.message);
+                        $('#modal-danger').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        })
+
+                    }
+                }
+            });
+            return false;
+        }
+    });
+</script>     
+{% endblock %}
